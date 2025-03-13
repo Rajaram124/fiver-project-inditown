@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inditown-main-ms
+  labels:
+    app: inditown-main-ms
+    env: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inditown-main-ms
+  template:
+    metadata:
+      labels:
+        app: inditown-main-ms
+    spec:
+      containers:
+      - name: inditown-main-ms-pub
+        image: 730335562760.dkr.ecr.us-east-1.amazonaws.com/production/inditown:inditown-main-ms-v4
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: LOGIN_REDIRECT_URL
+          value: "https://beta.inditown.com/login/oauth2/code/google"
+        - name: SMF_URL
+          value: "172.20.167.148:9091"
+        - name: ENV
+          value: "test"
+      imagePullSecrets:
+      - name: ecr-image-pull-secret
