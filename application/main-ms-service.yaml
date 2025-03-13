@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inditown-main-ms2
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:730335562760:certificate/5747434f-41d3-4564-8e4c-af1720b33ffc
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+  labels:
+    app: inditown-main-ms
+spec:
+  type: LoadBalancer
+  selector:
+    app: inditown-main-ms
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8080
