@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inditown-smf-ms
+  labels:
+    app: inditown-smf
+    component: smf-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inditown-smf
+      component: smf-ms
+  template:
+    metadata:
+      labels:
+        app: inditown-smf
+        component: smf-ms
+    spec:
+      containers:
+        - name: inditown-smf-container
+          image: 730335562760.dkr.ecr.us-east-1.amazonaws.com/production/inditown:inditown-smf-ms-v4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9091
+          env:
+            - name: SMF_URL
+              value: "inditown-smf-ms:9091"
+            - name: ENV
+              value: "test"
+      imagePullSecrets:
+        - name: ecr-image-pull-secret
